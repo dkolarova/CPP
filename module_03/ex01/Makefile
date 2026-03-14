@@ -6,11 +6,11 @@
 #    By: diana <diana@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/13 16:02:03 by diana             #+#    #+#              #
-#    Updated: 2026/03/13 16:48:38 by diana            ###   ########.fr        #
+#    Updated: 2026/03/14 10:21:22 by diana            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = clapTrap
+NAME = scavTrap
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
