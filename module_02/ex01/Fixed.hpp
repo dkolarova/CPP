@@ -6,7 +6,7 @@
 /*   By: diana <diana@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 21:12:29 by diana             #+#    #+#             */
-/*   Updated: 2026/03/10 21:27:01 by diana            ###   ########.fr       */
+/*   Updated: 2026/03/12 14:12:36 by diana            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ class Fixed
 		Fixed(const int n);
 		Fixed(const float n);
 		Fixed(const Fixed &other);
-		~Fixed();
+		~Fixed();Fixed
 		
 		Fixed& operator=(const Fixed &other); // coppy assigment op
 
