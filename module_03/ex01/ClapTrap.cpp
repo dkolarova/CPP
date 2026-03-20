@@ -3,19 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   ClapTrap.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: diana <diana@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dkolarov <dkolarov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 15:45:30 by diana             #+#    #+#             */
-/*   Updated: 2026/03/13 16:22:33 by diana            ###   ########.fr       */
+/*   Updated: 2026/03/20 13:29:12 by dkolarov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ClapTrap.hpp"
 
+ClapTrap::ClapTrap()
+	: _name("default"), _hitPoints(10), _energyPoints(10), _attackDamage(0)
+{
+	std::cout << "ClapTrap " << _name << " created!" << std::endl;
+}
+
 ClapTrap::ClapTrap(const std::string& name)
 	: _name(name), _hitPoints(10), _energyPoints(10), _attackDamage(0)
 {
 	std::cout << "ClapTrap " << _name << " created!" << std::endl;
+}
+
+ClapTrap::ClapTrap(const ClapTrap& other)
+{
+	*this = other;
+	std::cout << "ClapTrap " << _name << " copied!" << std::endl;
+}
+
+ClapTrap& ClapTrap::operator=(const ClapTrap& other)
+{
+	if (this != &other)
+	{
+		_name = other._name;
+		_hitPoints = other._hitPoints;
+		_energyPoints = other._energyPoints;
+		_attackDamage = other._attackDamage;
+	}
+	return (*this);
 }
 
 ClapTrap::~ClapTrap() {
@@ -45,12 +69,13 @@ void ClapTrap::takeDamage(unsigned int amount)
 		std::cout << _name << " is alerady dead." << std::endl;
 		return ;
 	}
-	_hitPoints -= amount;
-	if (_hitPoints < 0)
+	if (amount >= static_cast<unsigned int>(_hitPoints))
 	{
 		_hitPoints = 0;
-		std::cout << "ClapTrap " << _name << " takes " << amount << " damage, remaining HP: " << _hitPoints << std::endl;
 	}
+	else
+		_hitPoints -= static_cast<int>(amount);
+	std::cout << "ClapTrap " << _name << " takes " << amount << " damage, remaining HP: " << _hitPoints << std::endl;
 }
 
 void ClapTrap::beRepaired(unsigned int amount)

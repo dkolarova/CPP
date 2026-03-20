@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ScavTrap.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: diana <diana@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dkolarov <dkolarov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 16:36:03 by diana             #+#    #+#             */
-/*   Updated: 2026/03/14 09:59:05 by diana            ###   ########.fr       */
+/*   Updated: 2026/03/20 13:29:12 by dkolarov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScavTrap.hpp"
 
-//contructor
+ScavTrap::ScavTrap() : ClapTrap("default")
+{
+	_hitPoints = 100;
+	_energyPoints = 50;
+	_attackDamage = 20;
 
-/* 
-ClapTrap constructor
-        ↓
-ScavTrap constructor
-*/
+	std::cout << "ScavTrap " << _name << " created!" << std::endl;
+}
 
 ScavTrap::ScavTrap(const std::string& name) : ClapTrap(name)
 {
@@ -27,6 +28,19 @@ ScavTrap::ScavTrap(const std::string& name) : ClapTrap(name)
 	_attackDamage = 20;
 
 	std::cout << "ScavTrap " << _name << " created!" << std::endl;
+}
+
+ScavTrap::ScavTrap(const ScavTrap& other) : ClapTrap(other)
+{
+	*this = other;
+	std::cout << "ScavTrap " << _name << " copied!" << std::endl;
+}
+
+ScavTrap& ScavTrap::operator=(const ScavTrap& other)
+{
+	if (this != &other)
+		ClapTrap::operator=(other);
+	return (*this);
 }
 
 ScavTrap::~ScavTrap()
@@ -55,24 +69,3 @@ void ScavTrap::guardGate()
 {
 	std::cout << "ScavTrap " << _name << " is now in Gate Keeper mode." << std::endl;
 }
-
-/* 
- ClapTrap
-      /    |    \
- name  HP  energy
-  |     |     |
- attack takeDamage repair
-      |
-      ↓
-      ScavTrap
-  HP=100 energy=50 damage=20
-  attack() override
-  guardGate()
-
-So ScavTrap:
-
-inherits behavior
-modifies attack
-adds new ability
-
-*/

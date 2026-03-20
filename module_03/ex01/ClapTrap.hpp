@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ClapTrap.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: diana <diana@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dkolarov <dkolarov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 15:35:31 by diana             #+#    #+#             */
-/*   Updated: 2026/03/13 16:41:03 by diana            ###   ########.fr       */
+/*   Updated: 2026/03/20 13:29:12 by dkolarov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,14 @@ class ClapTrap
 		int _attackDamage;
 
 	public:
-		 // contructor & destructor
+		ClapTrap();
 		ClapTrap(const std::string& name);
-		~ClapTrap();
-		// member funcs
+		ClapTrap(const ClapTrap& other);
+		ClapTrap& operator=(const ClapTrap& other);
+		virtual ~ClapTrap();
+
 		void attack(const std::string& target);
-		void takeDamage(unsigned int amout);
+		void takeDamage(unsigned int amount);
 		void beRepaired(unsigned int amount);
 };
 
