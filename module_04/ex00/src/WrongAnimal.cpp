@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   WrongAnimal.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: diana <diana@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dkolarov <dkolarov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 16:02:19 by dkolarov          #+#    #+#             */
-/*   Updated: 2026/03/24 07:26:53 by diana            ###   ########.fr       */
+/*   Updated: 2026/03/24 13:41:36 by dkolarov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ WrongAnimal::WrongAnimal() : type("WrongAnimal")
 WrongAnimal::WrongAnimal(const WrongAnimal& other)
 {
 	std::cout << "WrongAnimal copy constructor called" << std::endl;
-	*this = other;
+	this->type = other.type;
 }
 
 WrongAnimal& WrongAnimal::operator=(const WrongAnimal& other)

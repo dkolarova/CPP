@@ -6,7 +6,7 @@
 /*   By: dkolarov <dkolarov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 16:01:32 by dkolarov          #+#    #+#             */
-/*   Updated: 2026/03/20 16:10:33 by dkolarov         ###   ########.fr       */
+/*   Updated: 2026/03/24 10:45:10 by dkolarov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ class Animal
 		Animal();
 		Animal(const Animal& other);
 		Animal& operator=(const Animal& other);
-	
 		virtual ~Animal();
 
 		virtual void makeSound() const;
