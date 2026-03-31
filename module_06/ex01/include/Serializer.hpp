@@ -13,8 +13,14 @@
 #ifndef SERIALIZER
 #define SERIALIZER
 
-#include "Data.hpp"
 #include <stdint.h>
+#include <string>
+
+struct Data
+{
+	int id;
+	std::string name;
+};
 
 class Serializer
 {

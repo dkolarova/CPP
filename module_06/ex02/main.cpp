@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Data.hpp                                           :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dkolarov <dkolarov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/30 16:26:16 by dkolarov          #+#    #+#             */
-/*   Updated: 2026/03/30 16:36:59 by dkolarov         ###   ########.fr       */
+/*   Created: 2026/03/31 16:41:51 by dkolarov          #+#    #+#             */
+/*   Updated: 2026/03/31 16:44:52 by dkolarov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DATA_HPP
-#define DATA_HPP
+#include "Base.hpp"
+#include <cstdlib>
+#include <ctime>
 
-#include <string>
+int main() {
+	// Seed random generator once at program start
+	std::srand(static_cast<unsigned int>(std::time(NULL)));
 
-struct Data
-{
-	int id;
-	std::string name;
+	// Generate a random object (A, B, or C)
+	Base* obj = generate();
 
-	Data();
-	Data(int i, const std::string& n);
-	Data(const Data& other);
-	Data& operator=(const Data& other);
-	~Data();
-};
+	// Identify using pointer version
+	identify(obj);
+	// Identify using reference version
+	identify(*obj);
 
-#endif
+	delete obj;
+	return 0;
+}

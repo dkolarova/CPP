@@ -5,18 +5,18 @@
 #                                                     +:+ +:+         +:+      #
 #    By: dkolarov <dkolarov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/03/30 15:52:17 by dkolarov          #+#    #+#              #
-#    Updated: 2026/03/31 13:53:36 by dkolarov         ###   ########.fr        #
+#    Created: 2026/03/31 15:44:24 by dkolarov          #+#    #+#              #
+#    Updated: 2026/03/31 17:02:05 by dkolarov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = serializer
+NAME = base
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -Iinclude
 
 SRC = main.cpp \
-	src/Serializer.cpp
+	src/Base.cpp
 
 OBJDIR = obj
 OBJ = $(addprefix $(OBJDIR)/,$(SRC:.cpp=.o))

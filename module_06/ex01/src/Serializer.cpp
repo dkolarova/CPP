@@ -6,7 +6,7 @@
 /*   By: dkolarov <dkolarov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 15:55:12 by dkolarov          #+#    #+#             */
-/*   Updated: 2026/03/30 17:40:48 by dkolarov         ###   ########.fr       */
+/*   Updated: 2026/03/31 13:55:12 by dkolarov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,3 +33,7 @@ uintptr_t Serializer::serialize(Data* ptr) {
 Data* Serializer::deserialize(uintptr_t raw) {
 	return reinterpret_cast<Data*>(raw);
 }
+
+/* 
+uintptr_t is an unsigned integer type guaranteed to be able to store a pointer without loss of information.
+*/
