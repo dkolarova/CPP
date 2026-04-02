@@ -6,7 +6,7 @@
 /*   By: dkolarov <dkolarov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 17:05:33 by diana             #+#    #+#             */
-/*   Updated: 2026/03/27 12:34:55 by dkolarov         ###   ########.fr       */
+/*   Updated: 2026/03/30 13:38:47 by dkolarov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ class Bureaucrat
 
 	public:
 		Bureaucrat();
-		Bureaucrat(const std::string _name, int _grade);
+		Bureaucrat(const std::string name, int grade);
 		Bureaucrat(const Bureaucrat& src);
 		Bureaucrat& operator=(const Bureaucrat& src);
 		~Bureaucrat();

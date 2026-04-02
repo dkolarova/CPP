@@ -5,37 +5,28 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dkolarov <dkolarov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/25 11:40:39 by dkolarov          #+#    #+#             */
-/*   Updated: 2026/03/30 13:27:00 by dkolarov         ###   ########.fr       */
+/*   Created: 2026/04/01 12:13:31 by dkolarov          #+#    #+#             */
+/*   Updated: 2026/04/01 13:45:23 by dkolarov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Bureaucrat.hpp"
+#include "whatever.hpp"
 
-int main()
+int main(void)
 {
-	try
-	{
-		Bureaucrat a("Antonia", 2);
-		std::cout << a << std::endl;
+	int a = 2;
+	int b = 3;
+	::swap(a, b);
+	std::cout << "a = " << a << ", b = " << b << std::endl;
+	std::cout << "min(a, b) = " << ::min(a, b) << std::endl;
+	std::cout << "max(a, b) = " << ::max(a, b) << std::endl;
 
-		a.incrementGrade(); // work
-		std::cout << a << std::endl;
+	std::string c = "coffee";
+	std::string d = "coffee:)";
+	::swap(c, d);
+	std::cout << "c = " << c << ", d = " << d << std::endl;
+	std::cout << "min(c, d) = " << ::min(c, d) << std::endl;
+	std::cout << "max(c, d) = " << ::max(c, d) << std::endl;
 
-		a.incrementGrade(); // throw
-	}
-	catch(const std::exception& e)
-	{
-		std::cout << "Exception: " << e.what() << std::endl;
-	}
-	std::cout << "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~" << std::endl;
-	
-	try
-	{
-		Bureaucrat b("Jose", 160);
-	}
-	catch(const std::exception& e)
-	{
-		std::cout << "Exception: " << e.what() << std::endl;
-	}
+	return 0;
 }

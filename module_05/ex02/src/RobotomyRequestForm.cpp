@@ -6,7 +6,7 @@
 /*   By: dkolarov <dkolarov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 17:07:00 by diana             #+#    #+#             */
-/*   Updated: 2026/03/27 14:32:22 by dkolarov         ###   ########.fr       */
+/*   Updated: 2026/03/30 13:51:05 by dkolarov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,3 +42,11 @@ void RobotomyRequestForm::executeAction() const
 	else
 		std::cout << "Robotomy failed" << std::endl;
 }
+
+/* 
+if (rand() % 2) // true if result is 1
+1 → true → robotomy success
+0 → false → robotomy failed
+
+So every time executeAction() runs, there’s a 50% chance the target is robotomized.
+*/

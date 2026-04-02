@@ -6,7 +6,7 @@
 /*   By: dkolarov <dkolarov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/25 11:40:53 by dkolarov          #+#    #+#             */
-/*   Updated: 2026/03/27 12:43:24 by dkolarov         ###   ########.fr       */
+/*   Updated: 2026/03/30 13:33:35 by dkolarov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,17 @@
 
 Bureaucrat::Bureaucrat(): _name("sin nombre:("), _grade(150){}
 
-Bureaucrat::Bureaucrat(const std::string _name, int _grade) : _name(_name)
+// “Grade” is a position, not a value — smaller number = better position
+Bureaucrat::Bureaucrat(const std::string name, int grade) : _name(name), _grade(grade)
 {
 	if (_grade < 1)
-		throw GradeTooLowException();
-	if (_grade > 150)
 		throw GradeTooHighException();
-	this->_grade = _grade;
+	if (_grade > 150)
+		throw GradeTooLowException();
 }
 
-Bureaucrat::Bureaucrat(const Bureaucrat& src)
-{
-	this->_grade = src._grade;
-}
+Bureaucrat::Bureaucrat(const Bureaucrat& src) : _name(src._name), _grade(src._grade) 
+{}
 
 Bureaucrat& Bureaucrat::operator=(const Bureaucrat& src)
 {

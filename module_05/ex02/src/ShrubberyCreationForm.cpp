@@ -6,7 +6,7 @@
 /*   By: dkolarov <dkolarov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 17:07:12 by diana             #+#    #+#             */
-/*   Updated: 2026/03/27 14:29:21 by dkolarov         ###   ########.fr       */
+/*   Updated: 2026/03/30 13:53:31 by dkolarov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,3 +52,9 @@ void ShrubberyCreationForm::executeAction() const
 }
 
 ShrubberyCreationForm::~ShrubberyCreationForm() {}
+
+/* 
+Step 1: concatenate _target + "_shrubbery" → "home_shrubbery"
+Step 2: convert to C-string with .c_str() → const char*
+Step 3: open that file for writing in file
+*/
