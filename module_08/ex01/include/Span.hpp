@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Span.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: diana <diana@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dkolarov <dkolarov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 17:22:26 by diana             #+#    #+#             */
-/*   Updated: 2026/04/04 17:29:04 by diana            ###   ########.fr       */
+/*   Updated: 2026/04/17 12:53:53 by dkolarov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 #include <vector>
 #include <stdexcept>
 #include <algorithm>
+#include <climits>
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 class Span
 {
@@ -24,28 +28,28 @@ class Span
 		std::vector<int>	_data;
 
 	public:
+		Span();		
 		Span(unsigned int N);
+		Span(const Span& other);
+		Span& operator=(const Span& other);
 		~Span();
 
 	void	addNumber(int n);
 	int		shortestSpan() const;
 	int		longestSpan() const;
 	
-	//Bonus
+	//range:)' 
 	template <typename Iterator>
-	void addRange(Iterator begin, Iterator end);
-};
-
-template <typename Iterator>
-void Span::addRange(Iterator begin, Iterator end)
-{
-	while (begin != end)
+	void addRange(Iterator begin, Iterator end)
 	{
-		if (_data.size() >= _maxSize)
-			throw std::runtime_error("Span is full");
-		_data.push_back(*begin);
-		++begin;
+		while (begin != end)
+		{
+			if (_data.size() >= _maxSize)
+				throw std::runtime_error("Span is full");
+			_data.push_back(*begin);
+			++begin;
+		}
 	}
-}
+};
 
 #endif

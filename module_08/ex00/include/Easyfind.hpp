@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Easyfind.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: diana <diana@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dkolarov <dkolarov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 15:58:27 by diana             #+#    #+#             */
-/*   Updated: 2026/04/04 16:20:59 by diana            ###   ########.fr       */
+/*   Updated: 2026/04/06 10:21:05 by dkolarov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,3 +31,13 @@ typename T::iterator easyfind(T& container, int value)
 }
 
 #endif
+
+
+/* 
+
+create a function that searches for an integer inside any container and:
+
+returns an iterator if found
+throws an exception if not found
+
+*/

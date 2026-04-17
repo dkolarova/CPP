@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   MutantStack.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: diana <diana@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dkolarov <dkolarov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 17:17:37 by diana             #+#    #+#             */
-/*   Updated: 2026/04/06 18:09:24 by diana            ###   ########.fr       */
+/*   Updated: 2026/04/17 14:14:51 by dkolarov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MUTANTSTACK_HPP
+#ifndef MUTANSTSTACK_HPP
 #define MUTANSTSTACK_HPP
 
 #include <stack>
@@ -44,3 +44,5 @@ class MutantStack : public std::stack<T>
 };
 
 #endif
+
+//c je interní member std::stack, = skutečný kontejner, kde jsou uložená data
