@@ -14,8 +14,10 @@ class BitcoinExchange
 	std::map<std::string, double> _database;
 
 	void trim(std::string &s) const;
+
 	bool isValidDate(const std::string &date) const;
 	bool isValidValue(const std::string &valueStr, double &value) const;
+	
 	std::map<std::string, double>::const_iterator
 	getClosestDate(const std::string &date) const;
 
