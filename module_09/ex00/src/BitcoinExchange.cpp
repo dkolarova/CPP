@@ -1,6 +1,6 @@
 #include <BitcoinExchange.hpp>
 
-// ---------------- ORTODX CANONICAL FORM
+// ---------------- ORTX-CANONICAL FORM
 
 BitcoinExchange::BitcoinExchange() {}
 
@@ -208,8 +208,12 @@ void BitcoinExchange::processInputFile(const std::string &filename)
 
 			double result = value * it->second;
 
-			std::cout << date << " => " << value
-					  << " = " << result << std::endl;
+			std::cout	<< date 
+						<< " => "
+						<< value
+						<< " = "
+						<< result
+						<< std::endl;
 		}
 		catch (const std::exception &e)
 		{

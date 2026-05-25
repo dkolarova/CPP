@@ -6,7 +6,7 @@
 /*   By: dkolarov <dkolarov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 15:39:14 by dkolarov          #+#    #+#             */
-/*   Updated: 2026/03/24 13:35:13 by dkolarov         ###   ########.fr       */
+/*   Updated: 2026/05/21 17:09:13 by dkolarov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int main() {
 	const WrongAnimal* w = new WrongCat();
 
 	std::cout << w->getType() << std::endl;
-	w->makeSound(); // ❌ WrongAnimal sound (no virtual)
+	w->makeSound(); //  WrongAnimal sound (no virtual)
 
 	delete w;
 
