@@ -11,14 +11,14 @@
 class BitcoinExchange
 {
 	private:
-	std::map<std::string, double> _database;
+	std::map<std::string, double> _database; // automatically stored by date, allows fast lookup
 
-	void trim(std::string &s) const;
+	void trim(std::string &s) const; //removes spaces
 
 	bool isValidDate(const std::string &date) const;
 	bool isValidValue(const std::string &valueStr, double &value) const;
 	
-	std::map<std::string, double>::const_iterator
+	std::map<std::string, double>::const_iterator // we need to return a reference to an element inside _database
 	getClosestDate(const std::string &date) const;
 
 	public:
