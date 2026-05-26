@@ -1,0 +1,38 @@
+**The idea
+
+ Will do the follow :) 
+	->	INPUT
+ 
+	->	PARSE
+
+	->	PAIR ELEMENTS
+	
+	->	ORDER EACH PAIR (big, small)
+
+	->	MAIN CHAIN = all bigs
+	->	PEND       = all smalls
+
+	->	SORT MAIN CHAIN
+
+	->	INSERT PEND with binary search
+
+	=	FINAL SORTED RESULT 
+
+
+ flow of the program when running =
+
+ run()
+ ├── parseInput()
+ ├── sortVector()
+ │     └── fordJohnsonVector()
+ │           ├── makePairs()
+ │           ├── split (implicit in pairs)
+ │           ├── sort main chain
+ │           └── insert pend
+ └── sortDeque()
+
+resources to loop uo to=
+
+https://medium.com/@sofia.huppertz/cpp09-school42-1efa42df7803
+https://www.linkedin.com/posts/nerraou_ford-johnson-merge-insertion-sort-activity-7076577075712675840-AJ1l
+https://en.wikipedia.org/wiki/Merge-insertion_sort

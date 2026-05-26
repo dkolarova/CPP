@@ -16,17 +16,21 @@ class PmergeMe
 		//parsing
 		void parseInput(int ac, char **av);
 		
-		//vec algorithm
+		//main drivers
 		void sortVector();
-		//deque algorithm
 		void sortDeque();
-
-		//void binarySearch(); ????
 		
-		//Ford-Johnson vec
+		//Ford-Johnson core
 		std::vector<int>fordJohnsonVector(std::vector<int> input);
-		//Ford-Johnson deque
 		std::deque<int>fordJohnsonDeque(std::deque<int> input);
+
+		// pairing
+		std::vector<std::pair<int,int>> makePairsVector(std::vector<int>& input);
+		std::deque<std::pair<int,int>> makePairsDeque(std::deque<int>& input);
+
+		// insertion helper (using STL)
+		void insertSorted(std::vector<int>& mainChain, int value);
+
 
 	public:
 		PmergeMe();
@@ -37,26 +41,5 @@ class PmergeMe
 		void run(int ac, char **av);
 
 };
-
-// The idea =
-
-/* Will do the follow :) 
-	->	INPUT
- 
-	->	PARSE
-
-	->	PAIR ELEMENTS
-	
-	->	ORDER EACH PAIR (big, small)
-
-	->	MAIN CHAIN = all bigs
-	->	PEND       = all smalls
-
-	->	SORT MAIN CHAIN
-
-	->	INSERT PEND with binary search
-
-	=	FINAL SORTED RESULT 
-*/
 
 #endif
