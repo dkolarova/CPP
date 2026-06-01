@@ -5,7 +5,7 @@ CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -Iinclude
 
 SRC = \
 	src/PmergeMe.cpp \
-	src/PmergeMe.cpp
+	src/main.cpp
 
 OBJDIR = obj
 OBJ = $(addprefix $(OBJDIR)/,$(SRC:.cpp=.o))
