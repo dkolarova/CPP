@@ -11,11 +11,12 @@ int main(int ac, char **av)
 	try
 	{
 		PmergeMe p;
-		p.run(ac, av);
+		p.process(av);
 	}
-	catch (const std::exception &e)
+	catch(std::exception &e)
 	{
 		std::cerr << "Error" << std::endl;
 		return 1;
 	}
+	return 0;
 }

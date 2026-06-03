@@ -1,14 +1,13 @@
 #include "PmergeMe.hpp"
 
-// ---------------- ORTHODOX CANONICAL FORM
+// ORTX-CANONICAL FORM
 PmergeMe::PmergeMe() : _vecTime(0), _deqTime(0) {}
 
-PmergeMe::PmergeMe(const PmergeMe &other)
+PmergeMe::PmergeMe(const PmergeMe& other)
 {
 	*this = other;
 }
-
-PmergeMe &PmergeMe::operator=(const PmergeMe &other)
+PmergeMe& PmergeMe::operator=(const PmergeMe& other)
 {
 	if (this != &other)
 	{
@@ -20,346 +19,168 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &other)
 	return *this;
 }
 
-PmergeMe::~PmergeMe() {}
+PmergeMe::~PmergeMe(){}
 
-
-// ============================================================
-// INSERTION HELPERS (binary insertion using lower_bound)
-// ============================================================
-
-void PmergeMe::insertSorted(std::vector<int>& mainChain, int value)
+// VALIDATION (no negatives, no duplicates, only digits)
+void PmergeMe::validateInput(char **av)
 {
-	std::vector<int>::iterator pos =
-		std::lower_bound(mainChain.begin(), mainChain.end(), value);
-	mainChain.insert(pos, value);
-}
+	std::set<int> seen;
 
-void PmergeMe::insertSortedDeque(std::deque<int>& mainChain, int value)
-{
-	std::deque<int>::iterator pos =
-		std::lower_bound(mainChain.begin(), mainChain.end(), value);
-	mainChain.insert(pos, value);
-}
-
-
-// ============================================================
-// PAIRING HELPERS (build (max, min) pairs)
-// ============================================================
-
-std::vector<std::pair<int,int> > PmergeMe::makePairsVector(const std::vector<int>& input)
-{
-	std::vector<std::pair<int,int> > pairs;
-
-	for (size_t i = 0; i + 1 < input.size(); i += 2)
+	for (int i = 1; av[i]; i++)
 	{
-		int a = input[i];
-		int b = input[i + 1];
+		std::string s(av[i]);
 
-		// ensure first is always the larger value
-		if (a < b)
-			std::swap(a, b);
-
-		pairs.push_back(std::make_pair(a, b));
-	}
-	return pairs;
-}
-
-std::deque<std::pair<int,int> > PmergeMe::makePairsDeque(const std::deque<int>& input)
-{
-	std::deque<std::pair<int,int> > pairs;
-
-	for (size_t i = 0; i + 1 < input.size(); i += 2)
-	{
-		int a = input[i];
-		int b = input[i + 1];
-
-		if (a < b)
-			std::swap(a, b);
-
-		pairs.push_back(std::make_pair(a, b));
-	}
-	return pairs;
-}
-
-
-// ============================================================
-// JACOBSTHAL SEQUENCE GENERATOR
-// Used to optimize insertion order of "pend" elements
-// ============================================================
-
-static std::vector<size_t> generateJacobsthal(size_t n)
-{
-	std::vector<size_t> jacob;
-
-	// J(0) = 0, J(1) = 1
-	size_t prev = 0;
-	size_t curr = 1;
-
-	while (curr < n)
-	{
-		jacob.push_back(curr);
-		size_t next = curr + 2 * prev;
-		prev = curr;
-		curr = next;
-	}
-	return jacob;
-}
-
-
-// ============================================================
-// FORD–JOHNSON (VECTOR VERSION)
-// ============================================================
-
-std::vector<int> PmergeMe::fordJohnsonVector(const std::vector<int>& input)
-{
-	// ---------------- BASE CASE
-	if (input.size() <= 1)
-		return input;
-
-	// ---------------- STEP 1: PAIR ELEMENTS
-	std::vector<std::pair<int,int> > pairs;
-	std::vector<int> unpaired;
-
-	for (size_t i = 0; i < input.size(); i += 2)
-	{
-		if (i + 1 < input.size())
-		{
-			int a = input[i];
-			int b = input[i + 1];
-
-			// a = max, b = min
-			if (a < b)
-				std::swap(a, b);
-
-			pairs.push_back(std::make_pair(a, b));
-		}
-		else
-		{
-			// odd element
-			unpaired.push_back(input[i]);
-		}
-	}
-
-	// ---------------- STEP 2: BUILD MAIN + PEND CHAINS
-	std::vector<int> mainChain;
-	std::vector<int> pend;
-
-	for (size_t i = 0; i < pairs.size(); i++)
-	{
-		mainChain.push_back(pairs[i].first);   // larger elements
-		pend.push_back(pairs[i].second);       // smaller elements
-	}
-
-	// ---------------- STEP 3: RECURSIVELY SORT MAIN CHAIN
-	mainChain = fordJohnsonVector(mainChain);
-
-	// ---------------- STEP 4: BUILD INSERTION ORDER (JACOBSTHAL)
-	std::vector<size_t> order;
-	std::vector<bool> used(pend.size(), false);
-
-	std::vector<size_t> jacob = generateJacobsthal(pend.size());
-
-	// insert jacobsthal indices first
-	for (size_t i = 0; i < jacob.size(); i++)
-	{
-		size_t idx = jacob[i];
-
-		if (idx == 0 || idx > pend.size())
-			continue;
-
-		if (!used[idx - 1])
-		{
-			order.push_back(idx - 1);
-			used[idx - 1] = true;
-		}
-	}
-
-	// insert remaining indices in order
-	for (size_t i = 0; i < pend.size(); i++)
-	{
-		if (!used[i])
-			order.push_back(i);
-	}
-
-	// ---------------- STEP 5: INSERT PEND ELEMENTS
-	// insertion is done in optimized Jacobsthal order
-	for (size_t i = 0; i < order.size(); i++)
-	{
-		insertSorted(mainChain, pend[order[i]]);
-	}
-
-	// ---------------- STEP 6: INSERT ODD ELEMENTS
-	for (size_t i = 0; i < unpaired.size(); i++)
-	{
-		insertSorted(mainChain, unpaired[i]);
-	}
-
-	return mainChain;
-}
-
-
-// ============================================================
-// FORD–JOHNSON (DEQUE VERSION)
-// SAME LOGIC AS VECTOR FOR CONSISTENCY
-// ============================================================
-
-std::deque<int> PmergeMe::fordJohnsonDeque(const std::deque<int>& input)
-{
-	if (input.size() <= 1)
-		return input;
-
-	std::deque<std::pair<int,int> > pairs;
-	std::deque<int> unpaired;
-
-	// pairing
-	for (size_t i = 0; i < input.size(); i += 2)
-	{
-		if (i + 1 < input.size())
-		{
-			int a = input[i];
-			int b = input[i + 1];
-
-			if (a < b)
-				std::swap(a, b);
-
-			pairs.push_back(std::make_pair(a, b));
-		}
-		else
-		{
-			unpaired.push_back(input[i]);
-		}
-	}
-
-	// main + pend
-	std::deque<int> mainChain;
-	std::deque<int> pend;
-
-	for (size_t i = 0; i < pairs.size(); i++)
-	{
-		mainChain.push_back(pairs[i].first);
-		pend.push_back(pairs[i].second);
-	}
-
-	// recursive sort
-	mainChain = fordJohnsonDeque(mainChain);
-
-	// Jacobsthal order
-	std::vector<size_t> order;
-	std::vector<bool> used(pend.size(), false);
-	std::vector<size_t> jacob = generateJacobsthal(pend.size());
-
-	for (size_t i = 0; i < jacob.size(); i++)
-	{
-		size_t idx = jacob[i];
-
-		if (idx == 0 || idx > pend.size())
-			continue;
-
-		if (!used[idx - 1])
-		{
-			order.push_back(idx - 1);
-			used[idx - 1] = true;
-		}
-	}
-
-	for (size_t i = 0; i < pend.size(); i++)
-	{
-		if (!used[i])
-			order.push_back(i);
-	}
-
-	// insertion
-	for (size_t i = 0; i < order.size(); i++)
-		insertSortedDeque(mainChain, pend[order[i]]);
-
-	for (size_t i = 0; i < unpaired.size(); i++)
-		insertSortedDeque(mainChain, unpaired[i]);
-
-	return mainChain;
-}
-
-
-// ============================================================
-// SORT + TIMING
-// ============================================================
-
-void PmergeMe::sortVector()
-{
-	clock_t start = clock();
-	_vec = fordJohnsonVector(_vec);
-	clock_t end = clock();
-
-	_vecTime = (double(end - start) / CLOCKS_PER_SEC) * 1000000;
-}
-
-void PmergeMe::sortDeque()
-{
-	clock_t start = clock();
-	_deq = fordJohnsonDeque(_deq);
-	clock_t end = clock();
-
-	_deqTime = (double(end - start) / CLOCKS_PER_SEC) * 1000000;
-}
-
-
-// ============================================================
-// INPUT PARSING (SAFE VERSION)
-// ============================================================
-
-void PmergeMe::parseInput(int ac, char **av)
-{
-	for (int i = 1; i < ac; i++)
-	{
-		std::string str(av[i]);
-
-		if (str.empty())
+		if (s.empty())
 			throw std::runtime_error("Error");
 
-		char *end;
-		long value = std::strtol(str.c_str(), &end, 10);
+		for (size_t j = 0; j < s.size(); j++)
+		{
+			if (!std::isdigit(s[j]))
+				throw std::runtime_error("Error");
+		}
 
-		// invalid characters check
-		if (*end != '\0')
+		long value = std::strtol(av[i], NULL, 10);
+
+		if (value < 0 || value > INT_MAX)
 			throw std::runtime_error("Error");
 
-		// overflow / negative check
-		if (value < 0 || value > std::numeric_limits<int>::max())
+		if (seen.count(value))
 			throw std::runtime_error("Error");
+
+		seen.insert(value);
 
 		_vec.push_back((int)value);
 		_deq.push_back((int)value);
 	}
 }
 
-
-// ============================================================
-// RUN
-// ============================================================
-
-void PmergeMe::run(int ac, char **av)
+//PROCESS
+void PmergeMe::process(char **av)
 {
-	parseInput(ac, av);
+	validateInput(av);
 
-	std::vector<int> before = _vec;
+	printBefore();
 
 	sortVector();
 	sortDeque();
 
-	std::cout << "Before: ";
-	for (size_t i = 0; i < before.size(); i++)
-		std::cout << before[i] << " ";
-	std::cout << std::endl;
+	printAfter();
 
-	std::cout << "After:  ";
+	std::cout
+		<< "Time to process a range of "
+		<< _vec.size()
+		<< " elements with std::vector : "
+		<< _vecTime
+		<< " us"
+		<< std::endl;
+
+	std::cout
+		<< "Time to process a range of "
+		<< _deq.size()
+		<< " elements with std::deque : "
+		<< _deqTime
+		<< " us"
+		<< std::endl;
+}
+
+//PRINTING
+void PmergeMe::printBefore() const
+{
+	std::cout << "Before: ";
+
 	for (size_t i = 0; i < _vec.size(); i++)
 		std::cout << _vec[i] << " ";
+
 	std::cout << std::endl;
-
-	std::cout << "Time to process " << _vec.size()
-			  << " elements with std::vector : "
-			  << _vecTime << " us" << std::endl;
-
-	std::cout << "Time to process " << _deq.size()
-			  << " elements with std::deque : "
-			  << _deqTime << " us" << std::endl;
 }
+
+void PmergeMe::printAfter() const
+{
+	std::cout << "After: ";
+
+	for (size_t i = 0; i < _vec.size(); i++)
+		std::cout << _vec[i] << " ";
+
+	std::cout << std::endl;
+}
+
+// VECTOR SORT WRAPPER
+void PmergeMe::sortVector()
+{
+	clock_t start = clock();
+
+	_vec = fordJohnson(_vec);
+
+	clock_t end = clock();
+
+	_vecTime = (double)(end - start) / CLOCKS_PER_SEC * 1e6;
+}
+
+// DEQUE SORT WRAPPER
+void PmergeMe::sortDeque()
+{
+	clock_t start = clock();
+
+	std::vector<int> tmp(_deq.begin(), _deq.end());
+	tmp = fordJohnson(tmp);
+	_deq.assign(tmp.begin(), tmp.end());
+
+	clock_t end = clock();
+
+	_deqTime = (double)(end - start) / CLOCKS_PER_SEC * 1e6;
+}
+
+//FORDJOHNSON CORE
+std::vector<int> PmergeMe::fordJohnson(std::vector<int> v)
+{
+	if (v.size() <= 1)
+		return v;
+
+	struct Pair
+	{
+		int big;
+		int small;
+	};
+
+	std::vector<Pair> pairs;
+	std::vector<int> mainChain;
+	std::vector<int> pend;
+
+	//1.Pairing
+	 for (size_t i = 0; i + 1 < v.size(); i += 2)
+    {
+		if (v[i] > v[i + 1])
+			pairs.push_back((Pair){v[i], v[i + 1]});
+		else
+			pairs.push_back((Pair){v[i + 1], v[i]});
+	}
+
+	//leftover
+	if (v.size() % 2 == 1)
+		pend.push_back(v.back());
+
+	//2. split main/pend
+	for (size_t i = 0; i < pairs.size(); i++)
+	{
+		mainChain.push_back(pairs[i].big);
+		pend.push_back(pairs[i].small);
+	}
+
+	//3.recursively sort main chain
+	mainChain = fordJohnson(mainChain);
+
+	//4. insert pend using binary search
+	for (size_t i = 0; i < pend.size(); i++)
+	{
+		std::vector<int>::iterator pos =
+			std::lower_bound(mainChain.begin(), mainChain.end(), pend[i]);
+
+		mainChain.insert(pos, pend[i]);
+	}
+	return mainChain;
+}
+
+// missing:
+// Jacobsthal insertion order (optimization step)
+// comparison counter (for learning/debugging)
+// iterative Ford–Johnson (instead of recursion)

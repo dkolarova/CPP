@@ -1,55 +1,51 @@
 #ifndef PMERGEME_HPP
 #define PMERGEME_HPP
 
-#include <ctime>
 #include <vector>
 #include <deque>
 #include <string>
 #include <iostream>
-#include <cstdlib>
-#include <limits>
 #include <sstream>
-#include <stdexcept>
+#include <cstdlib>
+#include <ctime>
 #include <algorithm>
+#include <stdexcept>
+#include <set>
+#include <climits>
 #include <cctype>
 
 class PmergeMe
 {
 	private:
-		//containers
 		std::vector<int> _vec;
-		std::deque<int> _deq;
+		std::deque<int>  _deq;
 
-		//parsing
-		void parseInput(int ac, char **av);
-		
-		//main drivers
-		void sortVector();
-		void sortDeque();
-		
-		//Ford-Johnson core
-		std::vector<int> fordJohnsonVector(const std::vector<int>& input);
-		std::deque<int> fordJohnsonDeque(const std::deque<int>& input);
-		// pairing
-    	std::vector<std::pair<int,int> > makePairsVector(const std::vector<int>& input);
-    	std::deque<std::pair<int,int> > makePairsDeque(const std::deque<int>& input);
-
-		// insertion helper (using STL)
-		void insertSorted(std::vector<int>& mainChain, int value);
-		void insertSortedDeque(std::deque<int>& mainChain, int value);
-
-		// time
 		double _vecTime;
 		double _deqTime;
 
+		struct Pair
+		{
+			int big;
+			int small;
+		};
+
+		void validateInput(char **av);
+
+		void sortVector();
+		void sortDeque();
+
+		std::vector<int> fordJohnson(std::vector<int> v);
+
 	public:
 		PmergeMe();
-		PmergeMe(const PmergeMe &other);
-		PmergeMe &operator=(const PmergeMe &other);
+		PmergeMe(const PmergeMe& other);
+		PmergeMe& operator=(const PmergeMe& other);
 		~PmergeMe();
 
-		void run(int ac, char **av);
+		void process(char **av);
 
+		void printBefore() const;
+		void printAfter() const;
 };
 
 #endif
