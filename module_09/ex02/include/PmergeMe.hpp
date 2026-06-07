@@ -34,7 +34,11 @@ class PmergeMe
 		void sortVector();
 		void sortDeque();
 
+		size_t maxComparisons(size_t n);
+		std::vector<size_t> jacobsthalOrder(size_t n);
 		std::vector<int> fordJohnson(std::vector<int> v);
+		
+		size_t _comparisons;
 
 	public:
 		PmergeMe();
@@ -46,6 +50,8 @@ class PmergeMe
 
 		void printBefore() const;
 		void printAfter() const;
+
+		std::vector<int>::iterator binaryInsertPos(std::vector<int>& chain, std::vector<int>::iterator end, int value);
 };
 
 #endif

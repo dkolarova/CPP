@@ -1,6 +1,6 @@
 #include "RPN.hpp"
 
-// ---------------- ORTX-CANONICAL FORM
+// ------- ORTX-CANONICAL FORM ------ 
 
 RPN::RPN(){}
 
@@ -18,7 +18,7 @@ RPN& RPN::operator=(const RPN& other)
 
 RPN::~RPN() {}
 
-// ---------------- HELPERS
+// ---------------- HELPERS ----------------
 
 bool RPN::isNumber(const std::string& token) const
 {
@@ -54,7 +54,7 @@ int RPN::applyOperator(int a, int b, const std::string& op) const
 	throw std::runtime_error("Error");
 }
 
-// 
+// -------- VALIDATION ---------
 
 int RPN::evaluate(const std::string& expression)
 {

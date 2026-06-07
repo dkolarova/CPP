@@ -1,6 +1,6 @@
 #include <BitcoinExchange.hpp>
 
-// ---------------- ORTX-CANONICAL FORM
+// ---------------- ORTX-CANONICAL FORM ----------------
 
 BitcoinExchange::BitcoinExchange() {}
 
@@ -18,7 +18,7 @@ BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
 
 BitcoinExchange::~BitcoinExchange() {}
 
-// ---------------- UTIL
+// ---------------- SPACES ----------------
 
 void BitcoinExchange::trim(std::string &s) const
 {
@@ -29,7 +29,7 @@ void BitcoinExchange::trim(std::string &s) const
 		s.erase(s.size() - 1);
 }
 
-// ---------------- LOAD DB
+// ---------------- LOAD DB ----------------
 
 void BitcoinExchange::loadDatabase(const std::string &filename)
 {
@@ -61,7 +61,7 @@ void BitcoinExchange::loadDatabase(const std::string &filename)
 	}
 }
 
-// ---------------- VALUE VALIDATION
+// ---------------- VALUE VALIDATION ----------------
 
 bool BitcoinExchange::isValidValue(const std::string &valueStr, double &value) const
 {
@@ -75,7 +75,7 @@ bool BitcoinExchange::isValidValue(const std::string &valueStr, double &value) c
 	return true;
 }
 
-// ---------------- DATE VALIDATION
+// ---------------- DATE VALIDATION ----------------
 
 bool BitcoinExchange::isValidDate(const std::string &date) const
 {
@@ -116,7 +116,7 @@ bool BitcoinExchange::isValidDate(const std::string &date) const
 	return true;
 }
 
-// ---------------- LOWER BOUND LOGIC
+// ---------------- LOWER BOUND LOGIC ----------------
 std::map<std::string, double>::const_iterator
 BitcoinExchange::getClosestDate(const std::string &date) const
 {
@@ -134,7 +134,7 @@ BitcoinExchange::getClosestDate(const std::string &date) const
 	return it;
 }
 
-// ---------------- INPUT PROCESSING
+// ---------------- INPUT PROCESSING ----------------
 
 void BitcoinExchange::processInputFile(const std::string &filename)
 {
