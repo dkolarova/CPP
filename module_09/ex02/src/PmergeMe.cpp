@@ -57,14 +57,13 @@ void PmergeMe::validateInput(char **av)
 	}
 }
 
-
 // ---------------- PRINT ----------------
 void PmergeMe::printBefore() const
 {
 	std::cout << "Before: ";
 	for (size_t i = 0; i < _vec.size(); i++)
 		std::cout << _vec[i] << " ";
-	std::cout << std::endl;
+	std::cout<<std::endl;
 }
 
 void PmergeMe::printAfter() const
@@ -72,7 +71,7 @@ void PmergeMe::printAfter() const
 	std::cout << "After: ";
 	for (size_t i = 0; i < _vec.size(); i++)
 		std::cout << _vec[i] << " ";
-	std::cout << std::endl;
+	std::cout<< std::endl;
 }
 
 
@@ -105,6 +104,8 @@ void PmergeMe::sortDeque()
 
 
 // ---------------- JACOBSTHAL ORDER ----------------
+// the function returns the table entry for your input size.
+// The limits[] array is indexed by n, so for n = 4 it returns limits[4], which is 5.
 size_t PmergeMe::maxComparisons(size_t n)
 {
 	static const size_t limits[] = {
@@ -117,6 +118,9 @@ size_t PmergeMe::maxComparisons(size_t n)
 	return limits[21];
 }
 
+// jacobsthalOrder(pend.size()) returns an index permutation telling which pend element to insert next.
+// Example (n=4): jacobsthalOrder(4) → {0,2,1,3} so you insert pend[0], then pend[2], then pend[1],
+// then pend[3] into mainChain using binaryInsertPos, which is where comparisons are made.
 std::vector<size_t> PmergeMe::jacobsthalOrder(size_t n)
 {
 	std::vector<size_t> order;
@@ -190,8 +194,8 @@ std::vector<int> PmergeMe::fordJohnson(std::vector<int> v)
 	// 2. Build main + pend
 	for (size_t i = 0; i < pairs.size(); i++)
 	{
-		mainChain.push_back(pairs[i].first);   // big
-		pend.push_back(pairs[i].second);      // small
+		mainChain.push_back(pairs[i].first);	// big
+		pend.push_back(pairs[i].second);		// small
 	}
 
 	// 3. Recursively sort ONLY main chain
@@ -265,5 +269,21 @@ void PmergeMe::process(char **av)
 
 	printAfter();
 
+	std::cout
+		<< "Time to process a range of "
+		<< _vec.size()
+		<< " elements with std::vector : "
+		<< _vecTime
+		<< " us"
+		<< std::endl;
+
+	std::cout
+		<< "Time to process a range of "
+		<< _deq.size()
+		<< " elements with std::deque : "
+		<< _deqTime
+		<< " us"
+		<< std::endl;
+		
 	std::cout << "Number of comparisons: " << _comparisons << std::endl;
 }
