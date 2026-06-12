@@ -13,6 +13,12 @@
 #include <set>
 #include <climits>
 #include <cctype>
+#include <sys/time.h>
+#include <iomanip>
+
+#ifndef NUMBER_COMPARISIONS
+# define NUMBER_COMPARISIONS 0
+#endif
 
 class PmergeMe
 {
@@ -33,6 +39,7 @@ class PmergeMe
 
 		void sortVector();
 		void sortDeque();
+		void printComparisons() const;
 
 		size_t maxComparisons(size_t n);
 		std::vector<size_t> jacobsthalOrder(size_t n);

@@ -23,72 +23,24 @@ PmergeMe& PmergeMe::operator=(const PmergeMe& other)
 
 PmergeMe::~PmergeMe() {}
 
-
-// ---------------- VALIDATION ----------------
-void PmergeMe::validateInput(char **av)
-{
-	std::set<int> seen;
-
-	for (int i = 1; av[i]; i++)
-	{
-		std::string s(av[i]);
-
-		if (s.empty())
-			throw std::runtime_error("Error");
-
-		for (size_t j = 0; j < s.size(); j++)
-		{
-			if (!std::isdigit(static_cast<unsigned char>(s[j])))
-				throw std::runtime_error("Error");
-		}
-
-		long value = std::strtol(av[i], NULL, 10);
-
-		if (value < 0 || value > INT_MAX)
-			throw std::runtime_error("Error");
-
-		if (seen.count(value))
-			throw std::runtime_error("Error");
-
-		seen.insert(value);
-
-		_vec.push_back((int)value);
-		_deq.push_back((int)value);
-	}
-}
-
-// ---------------- PRINT ----------------
-void PmergeMe::printBefore() const
-{
-	std::cout << "Before: ";
-	for (size_t i = 0; i < _vec.size(); i++)
-		std::cout << _vec[i] << " ";
-	std::cout<<std::endl;
-}
-
-void PmergeMe::printAfter() const
-{
-	std::cout << "After: ";
-	for (size_t i = 0; i < _vec.size(); i++)
-		std::cout << _vec[i] << " ";
-	std::cout<< std::endl;
-}
-
-
 // ---------------- SORT WRAPPERS ----------------
 void PmergeMe::sortVector()
 {
-	clock_t start = clock();
+	timeval start;
+	timeval end;
+	gettimeofday(&start, NULL);
 	_comparisons = 0;
 	_vec = fordJohnson(_vec);
-	clock_t end = clock();
+	gettimeofday(&end, NULL);
 
-	_vecTime = (double)(end - start) / CLOCKS_PER_SEC * 1e6;
+	_vecTime = (end.tv_sec - start.tv_sec) * 1e6 + (end.tv_usec - start.tv_usec);
 }
 
 void PmergeMe::sortDeque()
 {
-	clock_t start = clock();
+	timeval start;
+	timeval end;
+	gettimeofday(&start, NULL);
 	size_t savedComparisons = _comparisons;
 	_comparisons = 0;
 
@@ -97,27 +49,34 @@ void PmergeMe::sortDeque()
 	_deq.assign(tmp.begin(), tmp.end());
 	_comparisons = savedComparisons;
 
-	clock_t end = clock();
+	gettimeofday(&end, NULL);
 
-	_deqTime = (double)(end - start) / CLOCKS_PER_SEC * 1e6;
+	_deqTime = (end.tv_sec - start.tv_sec) * 1e6 + (end.tv_usec - start.tv_usec);
 }
 
-
-// ---------------- JACOBSTHAL ORDER ----------------
-// the function returns the table entry for your input size.
-// The limits[] array is indexed by n, so for n = 4 it returns limits[4], which is 5.
+// Ford-Johnson comparison upper bound: sum_{k=1..n} ceil(log2(3k/4)).
 size_t PmergeMe::maxComparisons(size_t n)
 {
-	static const size_t limits[] = {
-		0, 0, 1, 3, 5, 7, 10, 13, 16, 19, 22, 26,
-		30, 34, 38, 42, 46, 50, 54, 58, 62, 66
-	};
+	size_t total = 0;
 
-	if (n < sizeof(limits) / sizeof(limits[0]))
-		return limits[n];
-	return limits[21];
+	for (size_t k = 1; k <= n; k++)
+	{
+		size_t x = 3 * k;
+		size_t power = 1;
+		size_t m = 0;
+
+		while (power < x)
+		{
+			power <<= 1;
+			++m;
+		}
+
+		total += (m >= 2) ? (m - 2) : 0;
+	}
+	return total;
 }
 
+// ---------------- JACOBSTHAL ORDER ----------------
 // jacobsthalOrder(pend.size()) returns an index permutation telling which pend element to insert next.
 // Example (n=4): jacobsthalOrder(4) → {0,2,1,3} so you insert pend[0], then pend[2], then pend[1],
 // then pend[3] into mainChain using binaryInsertPos, which is where comparisons are made.
@@ -230,9 +189,7 @@ std::vector<int> PmergeMe::fordJohnson(std::vector<int> v)
 	}
 
 	if (hasOrphan)
-	{
 		binaryInsertPos(mainChain, mainChain.end(), orphan);
-	}
 
 	return mainChain;
 }
@@ -256,6 +213,7 @@ std::vector<int>::iterator PmergeMe::binaryInsertPos(std::vector<int>& chain, st
 
 	return chain.insert(chain.begin() + left, value);
 }
+
 // ---------------- PROCESS ----------------
 void PmergeMe::process(char **av)
 {
@@ -263,13 +221,6 @@ void PmergeMe::process(char **av)
 
 	validateInput(av);
 
-	#ifdef DEBUG
-	sortVector();
-	sortDeque();
-	_comparisons = std::min(_comparisons, maxComparisons(_vec.size()));
-	std::cout << "Number of comparisons: " << _comparisons << std::endl;
-	return;
-	#else
 	printBefore();
 
 	sortVector();
@@ -278,20 +229,26 @@ void PmergeMe::process(char **av)
 
 	printAfter();
 
+	std::ostringstream vecTime;
+	std::ostringstream deqTime;
+	vecTime << std::fixed << std::setprecision(5) << _vecTime;
+	deqTime << std::fixed << std::setprecision(5) << _deqTime;
+
 	std::cout
 		<< "Time to process a range of "
 		<< _vec.size()
-		<< " elements with std::vector : "
-		<< _vecTime
+		<< " elements with std::[..] : "
+		<< vecTime.str()
 		<< " us"
 		<< std::endl;
 
 	std::cout
 		<< "Time to process a range of "
 		<< _deq.size()
-		<< " elements with std::deque : "
-		<< _deqTime
+		<< " elements with std::[..] : "
+		<< deqTime.str()
 		<< " us"
 		<< std::endl;
-	#endif
+
+	printComparisons();
 }
