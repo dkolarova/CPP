@@ -2,6 +2,7 @@ NAME = PmergeMe
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -Iinclude
+DEBUGFLAGS = -DDEBUG -g
 
 SRC = \
 	src/PmergeMe.cpp \
@@ -11,6 +12,9 @@ OBJDIR = obj
 OBJ = $(addprefix $(OBJDIR)/,$(SRC:.cpp=.o))
 
 all: $(NAME)
+
+debug:
+	$(MAKE) re CXXFLAGS="$(CXXFLAGS) $(DEBUGFLAGS)" OBJDIR=obj_debug
 
 $(NAME): $(OBJ)
 	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJ)
@@ -30,4 +34,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all debug clean fclean re

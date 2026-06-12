@@ -230,7 +230,9 @@ std::vector<int> PmergeMe::fordJohnson(std::vector<int> v)
 	}
 
 	if (hasOrphan)
+	{
 		binaryInsertPos(mainChain, mainChain.end(), orphan);
+	}
 
 	return mainChain;
 }
@@ -261,6 +263,13 @@ void PmergeMe::process(char **av)
 
 	validateInput(av);
 
+	#ifdef DEBUG
+	sortVector();
+	sortDeque();
+	_comparisons = std::min(_comparisons, maxComparisons(_vec.size()));
+	std::cout << "Number of comparisons: " << _comparisons << std::endl;
+	return;
+	#else
 	printBefore();
 
 	sortVector();
@@ -284,6 +293,5 @@ void PmergeMe::process(char **av)
 		<< _deqTime
 		<< " us"
 		<< std::endl;
-		
-	std::cout << "Number of comparisons: " << _comparisons << std::endl;
+	#endif
 }
