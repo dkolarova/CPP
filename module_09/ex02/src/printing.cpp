@@ -10,7 +10,7 @@ static void printFull(const std::vector<int>& values)
 			std::cout << " ";
 	}
 }
-
+//for tester (no need)
 static void printPreview(const std::vector<int>& values)
 {
 	const size_t previewSize = 5;
@@ -31,6 +31,7 @@ static void printPreview(const std::vector<int>& values)
 	std::cout << " [...]";
 }
 
+// for tester (need: printFull(_vec))
 void PmergeMe::printBefore() const
 {
 	std::cout << "Before: ";
@@ -38,6 +39,7 @@ void PmergeMe::printBefore() const
 	std::cout << std::endl;
 }
 
+// for tester (need: printFull(_vec))
 void PmergeMe::printAfter() const
 {
 	std::cout << "After: ";
@@ -45,7 +47,7 @@ void PmergeMe::printAfter() const
 	std::cout << std::endl;
 }
 
-// ----------- 	DEBUG "PRINT COMPARISIONS" ---------
+//----------- 	DEBUG "PRINT COMPARISIONS" ---------
 void PmergeMe::printComparisons() const
 {
 	#if NUMBER_COMPARISIONS
@@ -54,3 +56,9 @@ void PmergeMe::printComparisons() const
 			<< std::endl;
 	#endif
 }	
+
+//for tester (need)
+// void PmergeMe::printComparisons() const
+// {
+// 	std::cout << "Number of comparisons: " << _comparisons << std::endl;
+// }
