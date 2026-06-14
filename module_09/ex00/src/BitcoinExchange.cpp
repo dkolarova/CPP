@@ -1,7 +1,6 @@
 #include <BitcoinExchange.hpp>
 
 // ---------------- ORTX-CANONICAL FORM ----------------
-
 BitcoinExchange::BitcoinExchange() {}
 
 BitcoinExchange::BitcoinExchange(const BitcoinExchange &other)
@@ -18,8 +17,7 @@ BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
 
 BitcoinExchange::~BitcoinExchange() {}
 
-// ---------------- SPACES ----------------
-
+// ---------------- REMOVE SPACES ----------------
 void BitcoinExchange::trim(std::string &s) const
 {
 	while (!s.empty() && std::isspace(static_cast<unsigned char>(s[0])))
@@ -30,7 +28,6 @@ void BitcoinExchange::trim(std::string &s) const
 }
 
 // ---------------- LOAD DB ----------------
-
 void BitcoinExchange::loadDatabase(const std::string &filename)
 {
 	std::ifstream file(filename.c_str());
@@ -41,7 +38,7 @@ void BitcoinExchange::loadDatabase(const std::string &filename)
 	}
 
 	std::string line;
-	std::getline(file, line); // skip header
+	std::getline(file, line); // read first line to skip header
 
 	while (std::getline(file, line))
 	{
@@ -62,12 +59,11 @@ void BitcoinExchange::loadDatabase(const std::string &filename)
 }
 
 // ---------------- VALUE VALIDATION ----------------
-
 bool BitcoinExchange::isValidValue(const std::string &valueStr, double &value) const
 {
 	char *end;
 
-	value = std::strtod(valueStr.c_str(), &end);
+	value = std::strtod(valueStr.c_str(), &end); //converting string to double
 
 	if (*end != '\0')
 		return false;
@@ -76,7 +72,6 @@ bool BitcoinExchange::isValidValue(const std::string &valueStr, double &value) c
 }
 
 // ---------------- DATE VALIDATION ----------------
-
 bool BitcoinExchange::isValidDate(const std::string &date) const
 {
 	if (date.size() != 10)
@@ -135,7 +130,6 @@ BitcoinExchange::getClosestDate(const std::string &date) const
 }
 
 // ---------------- INPUT PROCESSING ----------------
-
 void BitcoinExchange::processInputFile(const std::string &filename)
 {
 	std::ifstream file(filename.c_str());
@@ -146,7 +140,7 @@ void BitcoinExchange::processInputFile(const std::string &filename)
 	}
 
 	std::string line;
-	std::getline(file, line); // skip header
+	std::getline(file, line);  // read first line to skip header
 
 	while (std::getline(file, line))
 	{
